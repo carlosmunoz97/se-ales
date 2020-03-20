@@ -15,7 +15,6 @@ def rms(x):
     N=len(x)
     suma=0
     vrms=0
-    print(x)
     for i in x:
         suma=(i*i)+suma
        
@@ -63,6 +62,10 @@ plt.ylabel('Amplitud(v)')
 plt.legend()
 plt.show()
 
+#Se encuentra el valor RMS, la media y la varianza de la ECG sin filtrada
+varianza=np.var(ECG[0:819])
+deviacion=np.std(ECG[0:819])
+Vrms=rms(ECG[0:819])
 
 
 #se hace la gráfica de un ciclo cardíaco para la señal filtrada
@@ -73,4 +76,11 @@ plt.ylabel('Amplitud(v)')
 plt.legend()
 plt.show()
 
+#Se encuentra el valor RMS, la media y la varianza de la ECG filtrada
+varianza1=np.var(ECGfilter[0:819])
+deviacion1=np.std(ECGfilter[0:819])
+Vrms1=rms(ECGfilter[0:819])
 
+print (str(varianza) + " vs " + str(varianza1))
+print (str(deviacion) + " vs " + str(deviacion1))
+print (str(Vrms) + " vs " + str(Vrms1))
