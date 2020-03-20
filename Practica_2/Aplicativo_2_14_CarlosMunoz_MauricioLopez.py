@@ -44,7 +44,12 @@ t=np.arange(0, (len(ECG)/frecuencia), 1/frecuencia)
 
 
 #Se obtiene los graficos de la señal filtrada y sin filtrar 
-plt.plot(t,ECG)
-plt.plot(t,ECGfilter)
+plt.plot(t,ECG, label='EEG sin filtrar')
+plt.plot(t,ECGfilter, label='EEG filtrada')
+plt.title('EEG')
 plt.xlabel('tiempo(s)')
 plt.ylabel('Amplitud(v)')
+plt.legend()
+plt.savefig('EEG_filterandnot')
+plt.show()
+##Se puede observar en los gráficos que el filtro es un pasa altas, el cual le quital el nivel dc a la señal
