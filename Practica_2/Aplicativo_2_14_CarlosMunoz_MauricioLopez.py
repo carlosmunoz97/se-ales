@@ -44,12 +44,33 @@ t=np.arange(0, (len(ECG)/frecuencia), 1/frecuencia)
 
 
 #Se obtiene los graficos de la señal filtrada y sin filtrar 
-plt.plot(t,ECG, label='EEG sin filtrar')
-plt.plot(t,ECGfilter, label='EEG filtrada')
-plt.title('EEG')
+plt.plot(t,ECG, label='ECG sin filtrar')
+plt.plot(t,ECGfilter, label='ECG filtrada')
+plt.title('ECG')
 plt.xlabel('tiempo(s)')
 plt.ylabel('Amplitud(v)')
 plt.legend()
-plt.savefig('EEG_filterandnot')
+plt.savefig('ECG_filterandnot')
 plt.show()
+
 ##Se puede observar en los gráficos que el filtro es un pasa altas, el cual le quital el nivel dc a la señal
+
+#se hace la gráfica de un ciclo cardíaco para la señal sin filtrar 
+plt.plot(t[0:819],ECG[0:819], label='ECG sin filtrar')
+plt.title('ciclo cardiaco ECG sin filtrar')
+plt.xlabel('tiempo(s)')
+plt.ylabel('Amplitud(v)')
+plt.legend()
+plt.show()
+
+
+
+#se hace la gráfica de un ciclo cardíaco para la señal filtrada
+plt.plot(t[0:819],ECGfilter[0:819], label='ECG filtrada')
+plt.title('ciclo cardiaco ECG filtrada')
+plt.xlabel('tiempo(s)')
+plt.ylabel('Amplitud(v)')
+plt.legend()
+plt.show()
+
+
