@@ -34,6 +34,7 @@ EMG1filtered=np.squeeze(mat_contents['EMG_filtered1']);
 EMG1=np.squeeze(mat_contents['EMG_asRecording2']);
 EMG1filtered=np.squeeze(mat_contents['EMG_filtered2']);
 
+
 #se obtiene el valor de la freuencia, y el vectorde tiempo
 frecuencia=np.squeeze(mat_contents['Fs'])
 print('tipo de variable frecuencia: '+ str(type(frecuencia)))
