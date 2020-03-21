@@ -169,6 +169,7 @@ for i in range (0,12):
     
 print(tabulate(vectorBiceps_estadisticas, headers=['ciclo bi','varianza','valor promedio']))
 
+##Para el triceps filtrado
 vectorTri_estadisticas=[]
 vectorTri_ciclos=[]
 for i in range(0,12):
