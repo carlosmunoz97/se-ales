@@ -13,3 +13,17 @@ class Ventanainicio(QDialog):
         super(Ventanainicio, self).__init__();
         loadUi('interfaz.ui',self)
         self.setup();
+
+    def setup(self):
+        self.Carga.accepted.connect(self.cargar);
+        self.Graficar.accepted.connect(self.graficar);
+        self.filtrar.aacepted.connect(self.filtrar);
+        
+    def cargar(self):
+        pass;
+        
+    def graficar(self):
+        pass;
+    
+    def filtrar(self):
+        pass;
