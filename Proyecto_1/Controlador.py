@@ -18,15 +18,30 @@ class Controlador(object):
         self._mi_modelo= modelo
         self._mi2_ventana=vista2
         
-    def recibirruta(self, r,tf):
-        self._mi_modelo.recibirruta(r,tf)
+    def recibirruta(self, r):
+        self._mi_modelo.recibirruta(r)
     
+    def recibirtipodearchivo(self, tipefile):
+        self._mi_modelo.recibirtipodearchivo(tipefile)
+        
+        
     def loadsignals(self,l):
-        self._mi_modelo.loadsignals(l)
+        mini, maxi=self._mi_modelo.loadsignals(l)
+        return mini, maxi
     
-    #def graph(self,l,ch):
-     #   self._mi_modelo.channel=ch
-     #  self.graph(l)
+    def graph(self,ch,m,mx):
+        senal= self._mi_modelo.graph(ch,m,mx)
+        return senal
+    
+    def filtrar(self,ch,tr,tw,tt):
+        senal, senalfiltrada= self._mi_modelo.filtrar(ch,tr,tw,tt)
+        return senal, senalfiltrada
+    
+    def guardarfil(self,ch,archivo):
+        self._mi_modelo.guardarfil(ch,archivo)
+    
+    def esposible(self):
+        return self._mi_modelo.possiblesave
         
 if __name__ == '__main__':
     app=QApplication(sys.argv)
