@@ -12,21 +12,21 @@ from PyQt5.QtGui import QIntValidator
 import numpy as np
 import scipy.io as sio
 
-class Ventanainicio(QDialog):
-    def __init__(self):
+class Ventanainicio(QDialog): #venatana de inicio para escoger el tipo y la ruta del archivo 
+    def __init__(self): #abre la ventana inicial 
         super(Ventanainicio, self).__init__();
         loadUi('ventana_inicio.ui',self)
         self.setup();
 
-    def setup(self):
+    def setup(self): #define los procesos que se realizaran si se presiona uno u otro boton 
         self.botoningreso.accepted.connect(self.aceptar);
         self.botoningreso.rejected.connect(self.cancelar);
         self.Examinar.clicked.connect(self.browser);
         
-    def asignarcontrolador(self, c):
+    def asignarcontrolador(self, c):# se crea el enlace entre esta ventana y el controlador 
         self.__mi_controlador = c
     
-    def aceptar(self):
+    def aceptar(self): #se valida que se haya escogido un tipo de archivo, si no se ha escogido ruta, no va a graficar nada en la ventana de visualizacion
         if(self.matfile.isChecked()):
             tipefile=1
         elif (self.bcifile.isChecked()):
@@ -36,7 +36,7 @@ class Ventanainicio(QDialog):
         
         self.__mi_controlador.recibirtipodearchivo(tipefile)
         
-        if (tipefile==0):
+        if (tipefile==0): #genera un mensaje si no se ha seleccionado un tipo de archivo, y cierra el programa  
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Information)
             msg.setText('Message Error')
@@ -44,19 +44,19 @@ class Ventanainicio(QDialog):
             msg.setInformativeText('Please, select a file type.')
             msg.show()
     
-    def browser(self):
+    def browser(self): #boton para definir la ruta donde se encuentra el archivo 
         archivo,_=QFileDialog.getOpenFileName(self, "Abrir senal","","Todos los archivos (*);;Archivos mat (*.mat)*;;Archivos OpenBCI (*.txt)*")
         self.__mi_controlador.recibirruta(archivo)
     
-    def cancelar(self):
+    def cancelar(self): #cierra la ventana 
         pass;
 
-class dosventana (QMainWindow):
-    def __init__(self):
+class dosventana (QMainWindow): #ventana de visualizacion 
+    def __init__(self):#carga la ventana 
         super(dosventana,self).__init__();
         loadUi('interfaz.ui',self)
         self.setup();
-    def setup(self):
+    def setup(self): #genera las acciones de los botones y widgets en la interfaz
         self.Carga.clicked.connect(self.cargar);
         self.Graficar.clicked.connect(self.graficar);
         self.Filtrar.clicked.connect(self.filtrar)        
@@ -67,10 +67,10 @@ class dosventana (QMainWindow):
         self.guardar_senales.clicked.connect(self.guardar);
         
         
-    def asignarcontrolador(self, c):
+    def asignarcontrolador(self, c): #se crea un enlace ocn el controlador 
         self.__mi_controlador = c
     
-    def cargarnueva(self):
+    def cargarnueva(self): #carga una nueva señal, solo si ya se ha escogido el tipo de archivo 
         if(self.matfile.isChecked()):
             tipefile=1
             archivo,_=QFileDialog.getOpenFileName(self, "Abrir senal","","Todos los archivos (*);;Archivos mat (*.mat)*")
@@ -83,7 +83,7 @@ class dosventana (QMainWindow):
             self.__mi_controlador.recibirruta(archivo)
             self.__mi_controlador.recibirtipodearchivo(tipefile)
                      
-        else:
+        else: #genera mensaje si no se ha escogido un tipo de archivo 
             tipefile=0
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Information)
@@ -94,28 +94,28 @@ class dosventana (QMainWindow):
         
         
         
-    def cargar(self):
+    def cargar(self): #permite cargar el archivo  definiendo los valores iniciales  de tiempo y  valor 0 en el campo e canales 
         self.Channel.setText(str(0))
         mini, maxi=self.__mi_controlador.loadsignals(1)
         self.tiempomenor.setText(str(mini))
         self.tiempomayor.setText(str(maxi))
         
-    def graficar(self):
+    def graficar(self): #genera la grafica  teniendo en cuenta que canal graficar y el tiempo que define el usuario
         self.campo_graficacion.clear();
         channel=self.Channel.text()
         mini=self.tiempomenor.text()
         maxi=self.tiempomayor.text()
         senal=self.__mi_controlador.graph(int(channel),int(mini),int(maxi))
-        if senal.ndim==1:
+        if senal.ndim==1: # si solo se grafica un canal 
             self.campo_graficacion.plot(senal,pen=('r'))
-        else:
+        else: #si se grafican todos los canales 
             DC=500
             for canal in range (senal.shape[0]):                
                 self.campo_graficacion.plot(senal[canal,int(mini):int(maxi)]+DC*canal,pen=('r'))       
         self.campo_graficacion.repaint()
         
         
-    def filtrar(self):
+    def filtrar(self): #genera el filtrado, si y solo si se ha escogido un canal y se ha realizado la configuracion del filtro 
         self.campo_graficacion.clear();
         if (self.one.isChecked() or self.mln.isChecked() or self.sln.isChecked()) and (self.universal.isChecked() or self.minimax.isChecked()) and (self.duro.isChecked() or self.suave.isChecked()) and (int(self.Channel.text())!=0):
             if (self.one.isChecked()):
@@ -150,7 +150,7 @@ class dosventana (QMainWindow):
             msg.setInformativeText('Please, select filter settings.')
             msg.show()
     
-    def guardar (self):
+    def guardar (self): #se permite guardar una señal filtrada si y solo si ya ha sido realizado el filtro 
         t=self.__mi_controlador.esposible()
         if t==1:
             archivo,_=QFileDialog.getSaveFileName(self, "Guardar archivo","","Todos los archivos (*);;Archivos mat (*.mat)*")

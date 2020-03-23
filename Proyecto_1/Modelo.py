@@ -12,25 +12,24 @@ import scipy.signal as signal
 import scipy.io as sio
 import math
 
-class ventanadentrada:
-    def __init__(self):
-        self.changepage=0
+class ventanadentrada:#clase donde se realizara todos los calculos y acciones que el usuario defina en su interfaz
+    def __init__(self):#se presentan 4 atributos iniciales que determinan estados dentro del desarrollo de la interfaz
+        self.changepage=0 #se usa para pasar de la primera ventana (0) a la segunda (1) en la interfaz 
         self.channel=0 #0 para mostrar todos los canales
-        self.tipeFile=0
-        self.possiblesave=0
+        self.tipeFile=0 #se usa para determinar el tipo de archivo que se está abriendo y confirmar que se trata del que el usuario necesita
+        self.possiblesave=0 #se usa para habilitar el boton de guardar una señal si y solo si ya ha sido filtrada(1)
         
-    def recibirruta (self, r):
+    def recibirruta (self, r): #funcion que guarda la ruta donde esta guardado el archivo que requiere el usuario 
         self.ruta=r
         
-    def recibirtipodearchivo(self,tipefile):
+    def recibirtipodearchivo(self,tipefile): #recibe el tipo de archivo que se va a abrir 
         self.tipeFile=tipefile
-        if (tipefile != 0):
+        if (tipefile != 0): #si se tiene un tipo de archivo .mat o BCI se puede realizar el cambio de ventana 
             self.changepage=1
     
-    def loadsignals(self, l):
-        self.possiblesave=0
-        print ('se cargo'+self.ruta)
-        if (self.tipeFile==1):
+    def loadsignals(self, l): #funcipon para cargar las señales y definir los valores de tiempo iniciales 
+        self.possiblesave=0 #deshabilita el boton de guardar la señal filtrada 
+        if (self.tipeFile==1): #abre un tipo de archivo .mat y guarda la señal que contiene dentro 
             mat_contents = sio.loadmat(self.ruta)
             biosignal=mat_contents['data']
             sensores,puntos,ensayos=biosignal.shape
@@ -39,7 +38,7 @@ class ventanadentrada:
             maxi=359000
             
             
-        if (self.tipeFile==2):
+        if (self.tipeFile==2): #abre un tipo de archivo open bci y guarda la señal que tiene dentro 
            data=open(self.ruta,'r');
            lines = reader_csv(data);
            
@@ -73,15 +72,15 @@ class ventanadentrada:
         return mini,maxi
     
     
-    def graph(self,ch,m,mx):
-        self.channel=ch
+    def graph(self,ch,m,mx): #funcion para graficar dependiendo de las especificaciones del usuraio sobre tiempo y canal o canales 
+        self.possiblesave=0 #deshabilita el boton de guardar la señal filtrada self.channel=ch
         if (self.channel==0):
             senal=self.biosignal
         if (self.channel!=0):
             senal= self.biosignal[self.channel-1,m:mx]
-        return senal
+        return senal #retorna la señal que se va a graficar 
     
-    def transf_h (self, senal):
+    def transf_h (self, senal): #función que realiza la transformada de Haar y devuelve los detalles y aproximaciones necesarios segun la señal 
         wavelet =[-1/ np.sqrt(2), 1/np.sqrt(2)]
         scale=[1/np.sqrt(2), 1/np.sqrt(2)]
           
@@ -110,7 +109,7 @@ class ventanadentrada:
     
         return (senal, detalles, j)
 
-    def N (self, detalles, aprox):
+    def N (self, detalles, aprox): 
         num=[]
         for i in range (len(detalles)):
             num.append(len(detalles[i]))
@@ -193,7 +192,7 @@ class ventanadentrada:
         X3 = APROX3 + DETAIL3;    
         return X3
 #%%    
-    def filtrar (self, ch, tr, tw, tt):
+    def filtrar (self, ch, tr, tw, tt):#Funcion que recibe el canal, y el tipo de filtro que se va a realizar a la señal, retornando la señal filtrada 
         self.possiblesave=1
         self.channel=ch
         signal=self.biosignal[ch,:]
@@ -287,7 +286,7 @@ class ventanadentrada:
         return self.biosignal[self.channel,:],self.senalfiltrada
     
     
-    def guardarfil(self,ch,archivo):
+    def guardarfil(self,ch,archivo): #funcion que permite guardar la señal filtrada segun los requerimientos del usuario 
         if self.possiblesave==1:
             sio.savemat(archivo,{'senalfiltrada': self.senalfiltrada,'canal':ch})
         
