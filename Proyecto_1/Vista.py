@@ -164,3 +164,5 @@ class dosventana (QMainWindow): #ventana de visualizacion
             msg.setWindowTitle('Message Box')
             msg.setInformativeText('Please, filter a channel.')
             msg.show()
+            
+            print ("Hola")
