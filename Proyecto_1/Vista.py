@@ -106,6 +106,7 @@ class dosventana (QMainWindow): #ventana de visualizacion
         mini=self.tiempomenor.text()
         maxi=self.tiempomayor.text()
         senal=self.__mi_controlador.graph(int(channel),int(mini),int(maxi))
+        print (senal.ndim)
         if senal.ndim==1: # si solo se grafica un canal 
             self.campo_graficacion.plot(senal,pen=('r'))
         else: #si se grafican todos los canales 

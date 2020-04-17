@@ -74,6 +74,7 @@ class ventanadentrada:#clase donde se realizara todos los calculos y acciones qu
     
     def graph(self,ch,m,mx): #funcion para graficar dependiendo de las especificaciones del usuraio sobre tiempo y canal o canales 
         self.possiblesave=0 #deshabilita el boton de guardar la señal filtrada self.channel=ch
+        self.channel=ch
         if (self.channel==0):
             senal=self.biosignal
         if (self.channel!=0):

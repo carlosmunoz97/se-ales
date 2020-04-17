@@ -58,7 +58,7 @@ plt.show()
 ##Se puede observar en los gráficos que el filtro es un pasa altas, el cual le quital el nivel dc a la señal
 
 #se hace la gráfica de un ciclo cardíaco para la señal sin filtrar 
-plt.plot(t[0:819],ECG[0:819], label='ECG sin filtrar')
+plt.plot(t[0:2000],ECG[0:2000], label='ECG sin filtrar')
 plt.title('ciclo cardiaco ECG sin filtrar')
 plt.xlabel('tiempo(s)')
 plt.ylabel('Amplitud(v)')
@@ -72,7 +72,7 @@ Vrms=rms(ECG[0:819])
 
 
 #se hace la gráfica de un ciclo cardíaco para la señal filtrada
-plt.plot(t[0:819],ECGfilter[0:819], label='ECG filtrada')
+plt.plot(t[0:2000],ECGfilter[0:2000], label='ECG filtrada')
 plt.title('ciclo cardiaco ECG filtrada')
 plt.xlabel('tiempo(s)')
 plt.ylabel('Amplitud(v)')
