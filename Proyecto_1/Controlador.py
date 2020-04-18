@@ -63,8 +63,6 @@ if __name__ == '__main__': #inicio del programa, es el programa principal que se
         
         mi_2vista.show();
         sys.exit(app.exec_());
-    
- print ('hola mundo')
 
 
     
